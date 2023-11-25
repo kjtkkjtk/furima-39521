@@ -27,27 +27,27 @@
 | ------------------ | -------    | ------------------------------ |
 | id                 | integer    | primary key, auto increment    |
 | name               | string     | null: false                    |
-| description        | text       |                                |
-| category           | string     |                                |
-| item_condition     | string     |                                |
-| shipping_fee       | string     |                                |
-| days_to_ship       | string     |                                |
-| prefecture         | string     |                                |
+| description        | text       | null: false                    |
+| category_id        | integer    | null: false                    |
+| item_condition_id  | integer    | null: false                    |
+| shipping_fee_id    | integer    | null: false                    |
+| days_to_ship_id    | integer    | null: false                    |
+| prefecture_id      | integer    | null: false                    |
 | price              | integer    | null: false                    |
 | user               | references | null: false, foreign_key: true |
 
 ### Association
 
 - belongs_to :user
-- has_many :purchases
+- has_one :purchase
 
 ## purchases テーブル
 
-| Column         | Type    | Options                        |
-| -------------- | ------- | ------------------------------ |
-| id             | integer | primary key, auto increment    |
-| item_id        | integer | foreign key                    |
-| buyer_id       | integer | foreign key                    |
+| Column         | Type       | Options                        |
+| -------------- | -------    | ------------------------------ |
+| id             | integer    | primary key, auto increment    |
+| item           | references | null: false, foreign_key: true |
+| user           | references | null: false, foreign_key: true |
 
 ### Association
 
@@ -60,14 +60,12 @@
 | Column        | Type       | Options                        |
 | ------------- | -------    | ------------------------------ |
 | id            | integer    | primary key, auto increment    |
-| user          | references | null: false, foreign_key: true |
 | postal_code   | string     | null: false                    |
-| prefecture    | string     | null: false                    |
+| prefecture_id | integer    | null: false, foreign_key: true |
 | city          | string     | null: false                    |
 | street        | string     | null: false                    |
 | building_name | string     |                                |
-| phone_number  | string     |                                |
-| purchase_id   | integer    | foreign key                    |
+| phone_number  | string     | null: false                    |
+| purchase      | references | null: false, foreign_key: true |
 
-
-
+- belongs_to :purchase
