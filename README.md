@@ -40,7 +40,6 @@ Things you may want to cover:
 - has_many :purchases
 - has_one :information
 
-
 ## items テーブル
 
 | Column         | Type    | Options                        |
@@ -55,7 +54,6 @@ Things you may want to cover:
 
 - belongs_to :user
 - has_many :purchases
-
 
 ## purchases テーブル
 
@@ -73,7 +71,6 @@ Things you may want to cover:
 - belongs_to :item
 - belongs_to :user
 - has_one :information
-
 
 ## informations テーブル
 
