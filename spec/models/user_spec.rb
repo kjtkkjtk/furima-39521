@@ -1,55 +1,84 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  include FactoryBot::Syntax::Methods
   describe 'ユーザー新規登録' do
     it 'nicknameが空では登録できない' do
-      user = User.new(nickname: '', email: 'test@example', password: '000000', password_confirmation: '000000', last_name: 'test', first_name: 'test', last_name_kana: 'test', first_name_kana: 'test', birthday: '1111')
+      user = build(:user, nickname: nil)
       user.valid?
       expect(user.errors.full_messages).to include("Nickname can't be blank")
-      # nicknameが空では登録できないテストコードを記述します
     end
-    it 'emailが空では登録できない' do
-      user = User.new(nickname: 'test', email: '', password: '000000', password_confirmation: '000000', last_name: 'test', first_name: 'test', last_name_kana: 'test', first_name_kana: 'test', birthday: '1111')
+
+    it 'メールアドレスが空では登録できない' do
+      user = build(:user, email: nil)
       user.valid?
       expect(user.errors.full_messages).to include("Email can't be blank")
-      # emailが空では登録できないテストコードを記述します
     end
-    it 'encrypted_passwordが空では登録できない' do
-      user = User.new(nickname: 'test', email: 'test@example', password: '', password_confirmation: '', last_name: 'test', first_name: 'test', last_name_kana: 'test', first_name_kana: 'test', birthday: '1111')
+
+    it 'パスワードが空では登録できない' do
+      user = build(:user, password: nil)
       user.valid?
       expect(user.errors.full_messages).to include("Password can't be blank")
-      # encrypted_passwordが空では登録できないテストコードを記述します
     end
-    it 'last_nameが空では登録できない' do
-      user = User.new(nickname: 'test', email: 'test@example', password: '000000', password_confirmation: '000000', last_name: '', first_name: 'test', last_name_kana: 'test', first_name_kana: 'test', birthday: '1111')
+
+    it '姓が空では登録できない' do
+      user = build(:user, last_name: nil)
       user.valid?
       expect(user.errors.full_messages).to include("Last name can't be blank")
-      # last_nameが空では登録できないテストコードを記述します
     end
-    it 'first_nameが空では登録できない' do
-      user = User.new(nickname: 'test', email: 'test@example', password: '000000', password_confirmation: '000000', last_name: 'test', first_name: '', last_name_kana: 'test', first_name_kana: 'test', birthday: '1111')
+
+    it '名が空では登録できない' do
+      user = build(:user, first_name: nil)
       user.valid?
       expect(user.errors.full_messages).to include("First name can't be blank")
-      # first_nameが空では登録できないテストコードを記述します
     end
-    it 'last_name_kanaが空では登録できない' do
-      user = User.new(nickname: 'test', email: 'test@example', password: '000000', password_confirmation: '000000', last_name: 'test', first_name: 'test', last_name_kana: '', first_name_kana: 'test', birthday: '1111')
+
+    it '姓（フリガナ）が空では登録できない' do
+      user = build(:user, last_name_kana: nil)
       user.valid?
       expect(user.errors.full_messages).to include("Last name kana can't be blank")
-      # last_name_kana空では登録できないテストコードを記述します
     end
-    it 'first_name_kanaが空では登録できない' do
-      user = User.new(nickname: 'test', email: 'test@example', password: '000000', password_confirmation: '000000', last_name: 'test', first_name: 'test', last_name_kana: 'test', first_name_kana: '', birthday: '1111')
+
+    it '名（フリガナ）が空では登録できない' do
+      user = build(:user, first_name_kana: nil)
       user.valid?
       expect(user.errors.full_messages).to include("First name kana can't be blank")
-      # first_name_kanaが空では登録できないテストコードを記述します
     end
-    it 'birthdayが空では登録できない' do
-      user = User.new(nickname: 'test', email: 'test@example', password: '000000', password_confirmation: '000000', last_name: 'test', first_name: 'test', last_name_kana: 'test', first_name_kana: 'test', birthday: '')
+
+    it '誕生日が空では登録できない' do
+      user = build(:user, birthday: nil)
       user.valid?
       expect(user.errors.full_messages).to include("Birthday can't be blank")
-      # birthday空では登録できないテストコードを記述します
+    end
+
+    it '名字（フリガナ）が全角カタカナでないと登録できない' do
+      user = build(:user, last_name_kana: 'ﾀﾛｳ')
+      user.valid?
+      expect(user.errors.full_messages).to include("Last name kana は全角カタカナで入力してください")
+    end
+
+    it '名前（フリガナ）が全角カタカナでないと登録できない' do
+      user = build(:user, first_name_kana: 'ﾊﾅｺ')
+      user.valid?
+      expect(user.errors.full_messages).to include("First name kana は全角カタカナで入力してください")
+    end
+
+    it '名字が全角日本語でないと登録できない' do
+      user = build(:user, last_name: 'Smith')
+      user.valid?
+      expect(user.errors.full_messages).to include("Last name は全角日本語で入力してください")
+    end
+
+    it '名前が全角日本語でないと登録できない' do
+      user = build(:user, first_name: 'John')
+      user.valid?
+      expect(user.errors.full_messages).to include("First name は全角日本語で入力してください")
+    end
+
+    it 'パスワードが英数字混合でないと登録できない' do
+      user = build(:user, password: 'password')
+      user.valid?
+      expect(user.errors.full_messages).to include("Password は英数字混合で入力してください")
     end
   end
 end
