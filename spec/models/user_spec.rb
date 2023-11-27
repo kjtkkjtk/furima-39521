@@ -9,6 +9,27 @@ RSpec.describe User, type: :model do
         @user = build(:user)
       end
 
+      it '正しい情報で登録できること' do
+        expect(@user).to be_valid
+      end
+
+      it '適切な形式のメールアドレスで登録できること' do
+        @user.email = 'test@example.com'
+        expect(@user).to be_valid
+      end
+
+      it '適切な形式のパスワードで登録できること' do
+        @user.password = 'Password1'
+        @user.password_confirmation = 'Password1'
+        expect(@user).to be_valid
+      end
+    end
+
+    context '異常系' do
+      before do
+        @user = build(:user)
+      end
+
       it 'nicknameが空では登録できない' do
         @user.nickname = nil
         @user.valid?
@@ -85,21 +106,6 @@ RSpec.describe User, type: :model do
         @user.password = 'password'
         @user.valid?
         expect(@user.errors.full_messages).to include("Password は英数字混合で入力してください")
-      end
-
-      it '正しい情報で登録できること' do
-        expect(@user).to be_valid
-      end
-
-      it '適切な形式のメールアドレスで登録できること' do
-        @user.email = 'test@example.com'
-        expect(@user).to be_valid
-      end
-
-      it '適切な形式のパスワードで登録できること' do
-        @user.password = 'Password1'
-        @user.password_confirmation = 'Password1'
-        expect(@user).to be_valid
       end
     end
   end
