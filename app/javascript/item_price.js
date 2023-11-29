@@ -5,7 +5,6 @@ window.addEventListener('turbo:load', () => {
 
   priceInput.addEventListener("input", () => {
     const inputValue = priceInput.value;
-    console.log(inputValue);
 
     // 入力が数字でない場合や空の場合のエラーハンドリング
     if (isNaN(inputValue) || inputValue === "") {
