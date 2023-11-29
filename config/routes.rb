@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   devise_for :users
   resources :users, only: [:edit, :update]
-  resources :items, only: [:index, :new, :create]
+  resources :items, only: [:index, :new, :create, :edit, :update]
   root to: "items#index"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

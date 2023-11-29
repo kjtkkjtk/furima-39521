@@ -12,16 +12,18 @@ class ItemsController < ApplicationController
   def create
     @item = Item.new(item_params)
     @item.user_id = current_user.id
-  
+
     if @item.save
-      # 商品が保存できた場合の処理（成功時のリダイレクトやメッセージなど）
+      
       redirect_to items_path, notice: '商品を出品しました。'
     else
-      # 商品の保存に失敗した場合の処理
-      render :new
+      
+      render :new, status: :unprocessable_entity
     end
   end
 
+  
+  
   private
 
   def item_params

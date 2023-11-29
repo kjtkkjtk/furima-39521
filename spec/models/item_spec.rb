@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Item, type: :model do
   include FactoryBot::Syntax::Methods
 
-  describe 'validations' do
+  describe '出品' do
     before do
       @item = build(:item)
     end
