@@ -8,6 +8,7 @@ RSpec.describe Item, type: :model do
     context '正常系' do
       it '正しい情報で登録できること' do
         expect(@item).to be_valid
+        
       end
     end
 
@@ -82,6 +83,12 @@ RSpec.describe Item, type: :model do
         @item.days_to_ship_id = 1
         @item.valid?
         expect(@item.errors.full_messages).to include("Days to ship can't be blank")
+      end
+
+      it '画像が空だと登録できない' do
+        @item.image = nil
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Image can't be blank")
       end
     end
   end
