@@ -1,7 +1,6 @@
 class ItemsController < ApplicationController
-  before_action :authenticate_user!, only: [:new, :create]
-
-  before_action :find_item, only: [:edit, :update]
+  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :show]
+  before_action :find_item, only: [:edit, :update, :show]
   before_action :check_user_owns_item, only: [:edit, :update]
 
   def new
@@ -9,8 +8,7 @@ class ItemsController < ApplicationController
   end
 
   def create
-    @item = Item.new(item_params)
-    @item.user_id = current_user.id
+    @item = current_user.items.build(item_params)
 
     if @item.save
       redirect_to root_path, notice: '商品を出品しました。'
@@ -24,16 +22,14 @@ class ItemsController < ApplicationController
   end
 
   def show
-    @item = Item.find(params[:id])
+    
   end
 
   def edit
-    @item = Item.find(params[:id])
+    
   end
 
   def update
-    @item = Item.find(params[:id])
-  
     if @item.update(item_params)
       redirect_to item_path(@item), notice: '商品を更新しました。'
     else
@@ -42,11 +38,10 @@ class ItemsController < ApplicationController
     end
   end
 
-  
   private
 
   def item_params
-    params.require(:item).permit(:name, :description, :image, :category_id, :item_condition_id, :shipping_fee_id, :prefecture_id, :days_to_ship_id, :price).merge(user_id: current_user.id)
+    params.require(:item).permit(:name, :description, :image, :category_id, :item_condition_id, :shipping_fee_id, :prefecture_id, :days_to_ship_id, :price)
   end
 
   def find_item
