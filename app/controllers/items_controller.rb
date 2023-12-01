@@ -18,7 +18,9 @@ class ItemsController < ApplicationController
     end
   end
 
-  
+  def index
+    @items = Item.all.order(created_at: :desc)
+  end
   
   private
 
