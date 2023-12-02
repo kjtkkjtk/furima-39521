@@ -1,7 +1,7 @@
 class ItemsController < ApplicationController
-  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :show]
-  before_action :find_item, only: [:edit, :update, :show]
-  before_action :check_user_owns_item, only: [:edit, :update]
+  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy, :show]
+  before_action :find_item, only: [:edit, :update, :show, :destroy]
+  before_action :check_user_owns_item, only: [:edit, :update, :destroy]
 
   def new
     @item = Item.new
@@ -35,6 +35,18 @@ class ItemsController < ApplicationController
     else
       flash.now[:alert] = '入力に誤りがあります'
       render :edit
+    end
+  end
+
+  def destroy
+    puts "Before destroy action"
+    if @item.user == current_user
+      @item.destroy
+      puts "Item destroyed"
+      redirect_to root_path, notice: '商品を削除しました。'
+    else
+      puts "User doesn't own the item"
+      redirect_to root_path, alert: '他のユーザーの商品は削除できません。'
     end
   end
 
