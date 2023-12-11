@@ -2,7 +2,8 @@ require 'rails_helper'
 
 RSpec.describe Order, type: :model do
   before do
-    @order = FactoryBot.build(:order)
+    user = FactoryBot.create(:user)
+    @orders_form = FactoryBot.build(:orders_form, user_id: user.id)
   end
 
   describe '購入' do

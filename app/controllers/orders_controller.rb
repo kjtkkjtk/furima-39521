@@ -19,8 +19,14 @@ class OrdersController < ApplicationController
 
   def index
     gon.public_key = ENV["PAYJP_PUBLIC_KEY"]
-    redirect_to root_path, alert: '無効なリクエストです。' if @item.sold_out?
-    @orders_form = OrdersForm.new
+    
+    if @item.sold_out?
+      redirect_to root_path, alert: '無効なリクエストです。'
+    elsif user_signed_in? && @item.user == current_user
+      redirect_to root_path, alert: '出品者は購入できません。'
+    else
+      @orders_form = OrdersForm.new
+    end
   end
 
   def new

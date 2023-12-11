@@ -11,5 +11,6 @@ class User < ApplicationRecord
   validates :password, format: { with: /\A(?=.*?[a-z])(?=.*?\d)[a-z\d]+\z/i, message: 'は英数字混合で入力してください' }
 
   has_many :items, dependent: :destroy
+  has_many :orders, dependent: :destroy
 
 end

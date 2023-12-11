@@ -4,8 +4,10 @@ FactoryBot.define do
     prefecture_id { 13 }
     city { 'Sample City' }
     street { '123 Sample Street' }
+    building_name { 'Sample Building' }
     phone_number { '09012345678' }
-    association :order, factory: :order
-    token {"tok_abcdefghijk00000000000000000"}
+    association :user
+    association :item
+    token { 'tok_abcdefghijk00000000000000000' }
   end
 end

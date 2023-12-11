@@ -3,12 +3,17 @@ class OrdersForm
 
   attr_accessor :item_id, :user_id, :postal_code, :prefecture_id, :city, :street, :building_name, :phone_number, :token
 
-  validates :token, presence: true
-  validates :postal_code, presence: true, format: { with: /\A\d{3}-\d{4}\z/, message: "is invalid" }
-  validates :prefecture_id, presence: true
-  validates :city, presence: true
-  validates :street, presence: true
-  validates :phone_number, presence: true, format: { with: /\A\d{10,11}\z/, message: "is invalid" }
+
+  with_options presence: true do
+    validates :user_id
+    validates :item_id
+    validates :token
+    validates :postal_code, format: { with: /\A\d{3}-\d{4}\z/, message: "is invalid" }
+    validates :prefecture_id, numericality: { other_than: 1, message: "can't be blank" }
+    validates :city
+    validates :street
+    validates :phone_number, format: { with: /\A\d{10,11}\z/, message: "is invalid" }
+  end
 
   def save
     order = Order.create(item_id: item_id, user_id: user_id)
@@ -23,5 +28,4 @@ class OrdersForm
       phone_number: phone_number
     )
   end
-
 end
