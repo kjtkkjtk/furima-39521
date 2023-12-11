@@ -12,6 +12,11 @@ RSpec.describe OrdersForm, type: :model do
       it '正しい情報で登録できること' do
         expect(@orders_form).to be_valid
       end
+
+      it '建物名がなくても保存できること' do
+        @orders_form.building_name = nil
+        expect(@orders_form).to be_valid
+      end
     end
 
     context '異常系' do
@@ -27,10 +32,6 @@ RSpec.describe OrdersForm, type: :model do
         expect(@orders_form.errors.full_messages).to include("Item can't be blank")
       end
 
-      it '建物名が空でも登録できること' do
-        @orders_form.building_name = nil
-        expect(@orders_form).to be_valid
-      end
 
       it '郵便番号が必須であること' do
         @orders_form.postal_code = nil
@@ -76,6 +77,12 @@ RSpec.describe OrdersForm, type: :model do
 
       it '電話番号が12桁以上では購入できないこと' do
         @orders_form.phone_number = '123456789012'
+        @orders_form.valid?
+        expect(@orders_form.errors.full_messages).to include("Phone number is invalid")
+      end
+
+      it '電話番号が英数混合では登録できないこと' do
+        @orders_form.phone_number = '090abc1234'
         @orders_form.valid?
         expect(@orders_form.errors.full_messages).to include("Phone number is invalid")
       end

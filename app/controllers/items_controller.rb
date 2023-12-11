@@ -26,8 +26,8 @@ class ItemsController < ApplicationController
   end
 
   def edit
-    if @item.sold_out?
-      redirect_to root_path, alert: '無効なリクエストです。' if @item.user == current_user
+    if @item.sold_out? || @item.user == current_user
+      redirect_to root_path, alert: '無効なリクエストです。'
     end
   end
 
