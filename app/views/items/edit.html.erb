@@ -1,4 +1,5 @@
 <%# cssは商品出品のものを併用しています。 app/assets/stylesheets/items/new.css %>
+<%= include_gon %>
 
 <%= form_with(model: @item, url: items_path, method: :post, local: true) do |f| %>
   <%= render 'shared/error_messages', model: @item %>
