@@ -37,11 +37,10 @@
       <%= link_to "トップページに戻る", root_path, class: "item-red-btn" %>
     <% else %>
       <%= link_to "購入画面に進む", item_orders_path(@item), class: "item-red-btn" %>
+      <!-- 上記のようにして、orders_path に item_id を渡す -->
     <% end %>
   <% end %>
 <% else %>
-  <%= link_to "購入画面に進む", user_signed_in? ? item_orders_path(@item) : "#", class: "item-red-btn" %>
-<% end %>
       <%# ログアウト状態の場合 %>
       <%= link_to "ログイン画面に進む", login_path, class: "item-red-btn" %>
     <% end %>
