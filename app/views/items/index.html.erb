@@ -1,3 +1,4 @@
+<%= include_gon %>
 <%= render "shared/header" %>
 <div class='main'>
 
@@ -140,7 +141,11 @@
             <% end %>
 
             <%# ② 「sold out」表示 %>
-            
+            <% if item.sold_out? %>
+              <div class='sold-out'>
+                <span>Sold Out!!</span>
+              </div>
+            <% end %>
             <!-- // ② 「sold out」表示 -->
 
           </div>
