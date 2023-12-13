@@ -1,5 +1,4 @@
 class ItemsController < ApplicationController
-  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy, :show]
   before_action :find_item, only: [:edit, :update, :show, :destroy]
   before_action :check_user_owns_item, only: [:edit, :update, :destroy]
 
@@ -22,11 +21,10 @@ class ItemsController < ApplicationController
   end
 
   def show
-    
   end
 
   def edit
-    if @item.sold_out? || @item.user == current_user
+    unless @item.sold_out? || @item.user == current_user
       redirect_to root_path, alert: '無効なリクエストです。'
     end
   end
@@ -61,7 +59,7 @@ class ItemsController < ApplicationController
   def find_item
     @item = Item.find(params[:id])
   end
-  
+
   def check_user_owns_item
     unless current_user && @item && @item.user == current_user
       flash[:alert] = "他のユーザーの商品は編集できません。"

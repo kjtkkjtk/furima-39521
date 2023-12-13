@@ -42,7 +42,7 @@
     </div>
     <%# /支払額の表示 %>
 
-    <%= form_with model: @orders_form, url: { action: "create" }, id: 'charge-form', class: 'transaction-form-wrap', local: true do |f| %>
+    <%= form_with model: @orders_form, url: { action: "create" }, data: { turbo: false },id: 'charge-form', class: 'transaction-form-wrap', local: true do |f| %>
       <%= render 'shared/error_messages', model: @orders_form %>
       <!-- カード情報の入力 -->
       <div class='credit-card-form'>
