@@ -8,17 +8,16 @@ window.addEventListener('turbo:load', () => {
 
     // 入力が数字でない場合や空の場合のエラーハンドリング
     if (isNaN(inputValue) || inputValue === "") {
-      addTaxDom.innerHTML = "有効な金額を入力してください";
-      profitDom.innerHTML = "";
-      return;
+      addTaxDom.textContent = "有効な金額を入力してください";
+      profitDom.textContent = "";
+    } else {
+      // 販売手数料の計算（10%）
+      const salesTax = Math.floor(inputValue * 0.1);
+      addTaxDom.textContent = `${salesTax}`;
+
+      // 利益の計算
+      const profit = inputValue - salesTax;
+      profitDom.textContent = `${profit}`;
     }
-
-    // 販売手数料の計算（10%）
-    const salesTax = Math.floor(inputValue * 0.1);
-    addTaxDom.innerHTML = `${salesTax}円`;
-
-    // 利益の計算
-    const profit = inputValue - salesTax;
-    profitDom.innerHTML = `${profit}円`;
   });
 });

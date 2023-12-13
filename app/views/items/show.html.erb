@@ -19,7 +19,7 @@
     </div>
     <div class="item-price-box">
       <span class="item-price">
-        ¥ <%= number_to_currency(@item.price, format: '%n') %>
+        ¥ <%= number_to_currency(@item.price, format: '%n', precision: 0) %>
       </span>
       <span class="item-postage">
         <%= @item.shipping_fee.name %>負担
