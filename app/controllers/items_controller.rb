@@ -1,6 +1,6 @@
 class ItemsController < ApplicationController
   before_action :find_item, only: [:edit, :update, :show, :destroy]
-  before_action :check_user_owns_item, only: [:edit, :update, :destroy]
+  before_action :check_user_owns_item, only: [:edit, :update, :destroy], if: :user_signed_in?
 
   def new
     @item = Item.new
@@ -24,8 +24,12 @@ class ItemsController < ApplicationController
   end
 
   def edit
-    unless @item.sold_out? || @item.user == current_user
-      redirect_to root_path, alert: '無効なリクエストです。'
+    if user_signed_in?
+      if @item.sold_out? || @item.user != current_user
+        redirect_to root_path, alert: '無効なリクエストです。'
+      end
+    else
+      redirect_to new_user_session_path, alert: 'ログインしてください。'
     end
   end
 
@@ -61,7 +65,7 @@ class ItemsController < ApplicationController
   end
 
   def check_user_owns_item
-    unless current_user && @item && @item.user == current_user
+    unless @item.user == current_user
       flash[:alert] = "他のユーザーの商品は編集できません。"
       redirect_to root_path
     end
